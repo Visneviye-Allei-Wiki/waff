@@ -1,0 +1,124 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffc0cb;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    font-size: 18px;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    opacity: 0;
+    transform: translateY(50px);
+    animation: fadeInUp 1s forwards;
+}
+
+.header {
+    text-align: center;
+    background-color: #ffb6c1;
+    padding: 20px;
+    border-radius: 10px;
+    color: #fff;
+    position: relative;
+}
+
+.header h1 {
+    font-size: 24px;
+    margin: 0;
+}
+
+.header .banner {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+@media (min-width: 768px) {
+    .header .banner {
+        width: 25%; /* Размер баннера для экранов шире 768px */
+    }
+}
+
+.main-content {
+    display: flex;
+    align-items: flex-start;
+}
+
+.content {
+    flex: 1;
+}
+
+.infobox {
+    width: 300px;
+    padding: 10px;
+    background-color: #ffe4e1;
+    border: 1px solid #ffc0cb;
+    border-radius: 10px;
+    margin-left: 20px;
+}
+
+.infobox h2 {
+    text-align: center;
+    background-color: #ffb6c1;
+    padding: 5px;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 18px;
+}
+
+.infobox .avatar {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.infobox table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.infobox td {
+    padding: 5px;
+    border-bottom: 1px solid #ffc0cb;
+}
+
+.content h2 {
+    color: #d147a3;
+    font-size: 22px;
+}
+
+.content a {
+    color: #d147a3;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.content a:hover {
+    text-decoration: underline;
+}
+
+.content ul {
+    list-style: none;
+    padding: 0;
+}
+
+.content ul li {
+    padding: 10px;
+    border-bottom: 1px solid #ffc0cb;
+    font-size: 18px;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
