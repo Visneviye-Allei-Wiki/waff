@@ -1,71 +1,460 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вафф</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="images/icon.png" type="image/png" sizez="512x512">
+    <title>Вафф - Вишневые Аллеи Вики</title>
+    <link rel="icon" href="images/icon.png" type="image/png" sizes="512x512">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
+            display: flex;
+        }
+        body.light-theme {
+            background-color: #ffc0cb;
+            color: #333;
+        }
+        body.dark-theme {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        .sidebar {
+            width: 10px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 20px 0;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            z-index: 1000;
+        }
+        .sidebar:hover {
+            width: 250px;
+            padding: 20px;
+        }
+        .light-theme .sidebar {
+            background-color: #ffb6c1;
+            border-right: 1px solid #d147a3;
+        }
+        .dark-theme .sidebar {
+            background-color: #2a2a2a;
+            border-right: 1px solid #ff9cc2;
+        }
+        .main-content {
+            margin-left: 10px;
+            padding: 20px;
+            box-sizing: border-box;
+            width: calc(100% - 10px);
+            transition: margin-left 0.3s ease;
+        }
+        .sidebar:hover + .main-content {
+            margin-left: 250px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 10px;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        .light-theme .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .dark-theme .container {
+            background-color: rgba(30, 30, 30, 0.9);
+            box-shadow: 0 0 10px rgba(255,255,255,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header img {
+            max-width: 25%;
+            height: auto;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .header img:hover {
+            transform: scale(1.05);
+        }
+        .header h1 {
+            margin-top: 10px;
+            transition: color 0.3s;
+        }
+        .light-theme .header h1 {
+            color: #d147a3;
+        }
+        .dark-theme .header h1 {
+            color: #ff9cc2;
+        }
+        .content {
+            margin-bottom: 20px;
+        }
+        .navigation {
+            margin-top: 40px;
+            margin-bottom: 20px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .sidebar:hover .navigation {
+            opacity: 1;
+        }
+        .navigation a {
+            display: block;
+            margin: 10px 0;
+            padding: 5px 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .light-theme .navigation a {
+            background-color: #fff;
+            color: #d147a3;
+        }
+        .dark-theme .navigation a {
+            background-color: #3a3a3a;
+            color: #ff9cc2;
+        }
+        .light-theme .navigation a:hover {
+            background-color: #d147a3;
+            color: #fff;
+        }
+        .dark-theme .navigation a:hover {
+            background-color: #ff9cc2;
+            color: #121212;
+        }
+        h2 {
+            transition: color 0.3s;
+        }
+        .light-theme h2 {
+            color: #d147a3;
+        }
+        .dark-theme h2 {
+            color: #ff9cc2;
+        }
+        a {
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .light-theme a {
+            color: #d147a3;
+        }
+        .dark-theme a {
+            color: #ff9cc2;
+        }
+        .light-theme a:hover {
+            color: #ff69b4;
+        }
+        .dark-theme a:hover {
+            color: #ffc0cb;
+        }
+        .theme-switch {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .sidebar:hover .theme-switch {
+            opacity: 1;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #d147a3;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        .theme-switch span {
+            margin-left: 10px;
+        }
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 5px;
+            left: 5px;
+            z-index: 1001;
+            background-color: rgba(255, 188, 193, 0.8); 
+            border: none;
+            border-radius: 5px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        .dark-theme .mobile-menu-toggle {
+            background-color: rgba(42, 42, 42, 0.8); 
+            color: #ff9cc2;
+        }
+        .divider {
+            border-top: 2px solid #d147a3;
+            margin: 20px 0;
+            transition: border-color 0.3s;
+        }
+        .dark-theme .divider {
+            border-color: #ff9cc2;
+        }
+        .content-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .main-info {
+            flex: 1;
+            min-width: 300px;
+            margin-right: 20px;
+        }
+        .infobox {
+            width: 250px;
+            border: 1px solid #d147a3;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+        .dark-theme .infobox {
+            border-color: #ff9cc2;
+            background-color: rgba(50, 50, 50, 0.9);
+        }
+        .infobox img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+        .infobox table {
+            width: 100%;
+            margin-top: 10px;
+        }
+        .infobox td {
+            padding: 5px;
+            border-bottom: 1px solid rgba(209, 71, 163, 0.3);
+        }
+        .dark-theme .infobox td {
+            border-bottom-color: rgba(255, 156, 194, 0.3);
+        }
+        .light-theme .infobox {
+            background-color: rgba(255, 255, 255, 0.9); 
+        }
+        .light-theme .infobox h2, .light-theme .infobox p, .light-theme .infobox td { 
+            background-color: #ff9cc2; 
+            padding: 5px 10px;
+            color: #fff; 
+            border-radius: 5px;
+        }
+        .light-theme .infobox td:first-child {
+            border-radius: 5px 0 0 5px;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 0;
+                padding: 0;
+            }
+            .sidebar.active {
+                width: 250px;
+                padding: 20px;
+            }
+            .navigation {
+                margin-top: 60px;
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+            .sidebar:hover + .main-content {
+                margin-left: 0;
+            }
+            .mobile-menu-toggle {
+                display: block;
+            }
+            .navigation, .theme-switch {
+                opacity: 1;
+            }
+            .header img {
+                max-width: 50%;
+            }
+            .content-wrapper {
+                flex-direction: column;
+            }
+            .infobox {
+                width: 100%;
+                margin-top: 20px;
+                margin-bottom: 20px; 
+            }
+            .main-info {
+                margin-right: 0;
+                order: 2; 
+            }
+            .infobox {
+                order: 1; 
+            }
+            .infobox {
+                margin-right: 0; 
+            }
+            .main-info, .infobox {
+                width: 100%; 
+                box-sizing: border-box;
+            }
+            .main-info p, .infobox p, .infobox td {
+                word-break: break-all; /* Разрешаем перенос слов */
+            }
+        }
+    </style>
 </head>
-<body>
-    <div class="container">
-        <div class="header">
-          <a href="https://visneviye-allei-wiki.github.io/Wiki/">
-            <img src="images/bannerwiki.png" alt="Добро пожаловать на Вишневые Аллеи Вики!" class="banner">
-        </a>
-        <p>Добро пожаловать на Вишневые Аллеи Вики!</p>
+<body class="light-theme">
+    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+    <div class="sidebar" id="sidebar">
+        <nav class="navigation">
+            <a href="https://visneviye-allei-wiki.github.io/Pages/">Все Статьи Вики</a>
+            <a href="#">Категории</a>
+            <a href="https://discord.gg/sAkkMxgh7f">Вики Сообщества</a>
+            <a href="https://visneviye-allei-wiki.github.io/sozdateli/">Создатели/Редакторы Вики</a>
+        </nav>
+        <div class="theme-switch">
+            <label class="switch">
+                <input type="checkbox" id="themeToggle">
+                <span class="slider"></span>
+            </label>
+            <span>Темная тема</span>
+        </div>
     </div>
-      
-        <div class="main-content">
-            <div class="content">
-                <h2>Основная информация</h2>
-                <p>Вафф (wafflinte_ivory) - на данный момент владелец дискорд-сервера <a href="https://discord.com/invite/wun8gmzdhJ">Вишневые Аллеи</a>. Живет в Германии, увлекается рисованием. Самый близкий человек для Вафф - <a href="link-to-sai-profile">Сай</a>.</p>
+    <div class="main-content">
+        <div class="container">
+            <header class="header">
+                <a href="https://visneviye-allei-wiki.github.io/wiki/">
+                    <img src="images/bannerwiki.png" alt="Вишневые Аллеи Вики">
+                </a>
+                <h1>Вафф</h1>
+            </header>
 
-                <h2>Попадание на сервер</h2>
-                <p>30 июля 2022 г. один из старых знакомых Черр скинул ссылку на приватный дружеский сервер (где находилась Вафф), ведущий на её видеоролик, с анимацией под названием "punk tactics" (на данный момент анимация недоступна и скрыта). Вафф сразу узнала стиль Черр и перешла по ссылке, подписалась на канал старой подруги, начав активно следить за творчеством авторши.</p>
-                <p>01.08.2022 на канале <a href="https://www.youtube.com/@cherru_">cherru</a> выходит анимация "<a href="https://www.youtube.com/watch?v=KI3MkN5Hfq4">How did you love</a>", в описании которой была ссылка-приглашение на её дискорд-сервер. Вафф не раздумывая заходит туда, так как ей хотелось найти новых друзей, попытаться отвлечься от негатива и вновь восстановить общение с самой Черр, что в последствии ей удалось. В дальнейшем, Черр и Вафф вновь начнут хорошо дружить/общаться, Вафф начнёт помогать Черр с управлением сервера, встав на должность администратора.</p>
+            <div class="divider"></div>
 
-                <h2>Уходы из сервера</h2>
-                <ul>
-                    <li>В один из дней Вафф ливает c сервера из-за страха перед, в прошлом, близким человеком, который очень негативно относился к Черр, но, успокоившись, вскоре возвращается обратно.</li>
-                    <li>Один из уходов был связан с тем, что, когда Сай и Вафф устроили первый в истории сервера хэллоуинский ивент, с запланированным большим сюжетом, который они прописывали в скрытых каналах на сервере. По просьбе Вафф открыть нужный канал, где была готова следующая часть ивента (на тот момент права администратора у Вафф были "обрезаны"), Дункан открывает абсолютно все каналы на всеобщее обозрение, что полностью обрушает всю инициативу и желание обоих работать, в ходе чего они уходят из сервера.</li>
-                </ul>
+            <div class="content-wrapper">
+                <main class="main-info">
+                    <h2>Основная информация</h2>
+                    <p>Вафф (wafflinte_ivory) - на данный момент владелец дискорд-сервера <a href="https://discord.com/invite/wun8gmzdhJ">Вишневые Аллеи</a>. Живет в Германии, увлекается рисованием. Самый близкий человек для Вафф - <a href="link-to-sai-profile">Сай</a>.</p>
 
-                <h2>Интересные факты</h2>
-                <ul>
-                    <li>На сервере, из-за шутки Черр, Вафф поставила себе ник "Хагги Ванги", что на долгое время стало её основным никнеймом на сервере.</li>
-                    <li>Изначально Вафф использовала по отношению к себе мужские местоимения, притворяясь парнем из-за неприятного опыта в общении. Псевдоним "Вафф" возник случайно и забавно, однажды Вафф написала, что хочет вафли и Черр написала "ваф ли", что случайным образом подтолкнуло на создание данного никнейма.</li>
-                    <li>Вафф и Черр были знакомы ещё с 2019-2020-го года, благодаря чатам в Ютубе, которые в скором времени Ютуб и удалил. Активно начали общаться 2020-го года. 20.05.2021 общение прекращается до создания дискорд-сервера Вишнёвые Аллеи.</li>
-                </ul>
-            </div>
-            <div class="infobox">
-                <h2>Вафф</h2>
-                <img src="images/waff.png" alt="Вафф" class="avatar">
-                <table>
-                    <tr>
-                        <td>Дата захода на сервер</td>
-                        <td>01.08.2022</td>
-                    </tr>
-                    <tr>
-                        <td>Должность</td>
-                        <td>Администратор</td>
-                    </tr>
-                    <tr>
-                        <td>Возраст</td>
-                        <td>17 лет</td>
-                    </tr>
-                    <tr>
-                        <td>Дата рождения</td>
-                        <td>10.12.2006</td>
-                    </tr>
-                    <tr>
-                        <td>Место рождения</td>
-                        <td>Украина</td>
-                    </tr>
-                </table>
+                    <h2>Попадание на сервер</h2>
+                    <p>30 июля 2022 г. один из старых знакомых Черр скинул ссылку на приватный дружеский сервер (где находилась Вафф), ведущий на её видеоролик, с анимацией под названием "punk tactics" (на данный момент анимация недоступна и скрыта). Вафф сразу узнала стиль Черр и перешла по ссылке, подписалась на канал старой подруги, начав активно следить за творчеством авторши.</p>
+                    <p>01.08.2022 на канале <a href="https://www.youtube.com/@cherru_">cherru</a> выходит анимация "<a href="https://www.youtube.com/watch?v=KI3MkN5Hfq4">How did you love</a>", в описании которой была ссылка-приглашение на её дискорд-сервер. Вафф не раздумывая заходит туда, так как ей хотелось найти новых друзей, попытаться отвлечься от негатива и вновь восстановить общение с самой Черр, что в последствии ей удалось. В дальнейшем, Черр и Вафф вновь начнут хорошо дружить/общаться, Вафф начнёт помогать Черр с управлением сервера, встав на должность администратора.</p>
+
+                    <h2>Уходы из сервера</h2>
+                    <ul>
+                        <li>В один из дней Вафф ливает c сервера из-за страха перед, в прошлом, близким человеком, который очень негативно относился к Черр, но, успокоившись, вскоре возвращается обратно.</li>
+                        <li>Один из уходов был связан с тем, что, когда Сай и Вафф устроили первый в истории сервера хэллоуинский ивент, с запланированным большим сюжетом, который они прописывали в скрытых каналах на сервере. По просьбе Вафф открыть нужный канал, где была готова следующая часть ивента (на тот момент права администратора у Вафф были "обрезаны"), Дункан открывает абсолютно все каналы на всеобщее обозрение, что полностью обрушает всю инициативу и желание обоих работать, в ходе чего они уходят из сервера.</li>
+                    </ul>
+
+                    <h2>Интересные факты</h2>
+                    <ul>
+                        <li>На сервере, из-за шутки Черр, Вафф поставила себе ник "Хагги Ванги", что на долгое время стало её основным никнеймом на сервере.</li>
+                        <li>Изначально Вафф использовала по отношению к себе мужские местоимения, притворяясь парнем из-за неприятного опыта в общении. Псевдоним "Вафф" возник случайно и забавно, однажды Вафф написала, что хочет вафли и Черр написала "ваф ли", что случайным образом подтолкнуло на создание данного никнейма.</li>
+                        <li>Вафф и Черр были знакомы ещё с 2019-2020-го года, благодаря чатам в Ютубе, которые в скором времени Ютуб и удалил. Активно начали общаться 2020-го года. 20.05.2021 общение прекращается до создания дискорд-сервера Вишнёвые Аллеи.</li>
+                    </ul>
+                </main>
+
+                <aside class="infobox">
+                    <h2>Вафф</h2>
+                    <img src="images/waff.png" alt="Вафф" class="avatar">
+                    <table>
+                        <tr>
+                            <td>Дата захода на сервер</td>
+                            <td>01.08.2022</td>
+                        </tr>
+                        <tr>
+                            <td>Должность</td>
+                            <td>Администратор</td>
+                        </tr>
+                        <tr>
+                            <td>Возраст</td>
+                            <td>17 лет</td>
+                        </tr>
+                        <tr>
+                            <td>Дата рождения</td>
+                            <td>10.12.2006</td>
+                        </tr>
+                        <tr>
+                            <td>Место рождения</td>
+                            <td>Украина</td>
+                        </tr>
+                    </table>
+                </aside>
             </div>
         </div>
     </div>
+
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        function setTheme(isDark) {
+            if (isDark) {
+                body.classList.remove('light-theme');
+                body.classList.add('dark-theme');
+            } else {
+                body.classList.remove('dark-theme');
+                body.classList.add('light-theme');
+            }
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        themeToggle.addEventListener('change', (event) => {
+            setTheme(event.target.checked);
+        });
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                themeToggle.checked = true;
+                setTheme(true);
+            }
+        });
+
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        }
+    </script>
 </body>
-  </html>
-  
+</html>
